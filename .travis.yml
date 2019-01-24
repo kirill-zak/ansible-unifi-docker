@@ -8,7 +8,6 @@ python:
 env:
   matrix:
     - UBUNTU_IMAGE_TAG: bionic
-    - UBUNTU_IMAGE_TAG: trusty
     - UBUNTU_IMAGE_TAG: xenial
 install:
   - pip install molecule
