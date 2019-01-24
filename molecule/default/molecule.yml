@@ -8,6 +8,8 @@ lint:
 platforms:
   - name: ansible-unifi-docker
     image: ubuntu:${UBUNTU_IMAGE_TAG:-latest}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 provisioner:
   name: ansible
   options:
