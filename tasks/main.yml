@@ -14,9 +14,11 @@
     init: true
     network_mode: host
     published_ports:
+      - '3478:3478/udp'
       - '8080:8080'
       - '8443:8443'
-      - '3478:3478/udp'
+      - '8880:8880'
+      - '6789:6789'
       - '10001:10001/udp'
     volumes:
       - "{{ unifi_docker_folder }}:/unifi"
