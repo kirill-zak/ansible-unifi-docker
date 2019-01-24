@@ -20,4 +20,4 @@
     volumes:
       - "{{ unifi_docker_folder }}:/unifi"
     env:
-      - TZ: "{{ unifi_docker_tz }}"
+      TZ: "{{ unifi_docker_tz }}"
