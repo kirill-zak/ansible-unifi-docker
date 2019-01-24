@@ -12,7 +12,7 @@ N/A
 
 `unifi_docker_tag`: Tag found at # https://hub.docker.com/r/jacobalberty/unifi/tags
 `unifi_docker_tz`: Timezone. List can be found at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-`unifi_docker_folder`: Where all the data and configs will be stored
+`unifi_docker_*_folder`: Where all the data and configs will be stored
 
 ## Dependencies
 
