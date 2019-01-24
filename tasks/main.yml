@@ -26,9 +26,9 @@
       - '6789:6789'
       - '10001:10001/udp'
     volumes:
-    - "{{ unifi_docker_data_folder }}:/unifi/data"
-    - "{{ unifi_docker_log_folder }}:/unifi/log"
-    - "{{ unifi_docker_cert_folder }}:/unifi/cert"
-    - "{{ unifi_docker_init_folder }}:/unifi/init.d"
+      - "{{ unifi_docker_data_folder }}:/unifi/data"
+      - "{{ unifi_docker_log_folder }}:/unifi/log"
+      - "{{ unifi_docker_cert_folder }}:/unifi/cert"
+      - "{{ unifi_docker_init_folder }}:/unifi/init.d"
     env:
       TZ: "{{ unifi_docker_tz }}"
