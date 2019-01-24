@@ -12,6 +12,7 @@
     state: started
     restart_policy: unless-stopped
     init: true
+    network_mode: host
     published_ports:
       - '8080:8080'
       - '8443:8443'
