@@ -1,0 +1,23 @@
+---
+
+- name: Create Unifi folder
+  file:
+    path: "{{ unifi_docker_folder }}"
+    state: directory
+
+- name: Create Unifi container
+  docker_container:
+    name: unifi
+    image: "jacobalberty/unifi:{{ unifi_docker_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    init: true
+    published_ports:
+      - '8080:8080'
+      - '8443:8443'
+      - '3478:3478/udp'
+      - '10001:10001/udp'
+    volumes:
+      - "{{ unifi_docker_folder }}:/unifi"
+    env:
+      - TZ: "{{ unifi_docker_tz }}"
