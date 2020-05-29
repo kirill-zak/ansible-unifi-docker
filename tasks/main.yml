@@ -1,23 +1,24 @@
 ---
-
-- name: Create Unifi directories
-  file:
-    path: "{{ item }}"
-    state: directory
+- name: Create UniFi volumes
+  docker_volume:
+    name: "{{ item }}"
   loop:
-    - "{{ unifi_docker_data_folder }}"
-    - "{{ unifi_docker_log_folder }}"
-    - "{{ unifi_docker_cert_folder }}"
-    - "{{ unifi_docker_init_folder }}"
+    - unifi_data
+    - unifi_log
+    - unifi_cert
+    - unifi_init.d
+    
+- name: Create UniFi network
+  docker_network:
+    name: "{{ unifi_docker_network }}"
 
-- name: Create Unifi container
+- name: Create UniFi container
   docker_container:
-    name: unifi
+    name: "{{ unifi_docker_container_name }}"
     image: "jacobalberty/unifi:{{ unifi_docker_tag }}"
     state: started
     restart_policy: unless-stopped
     init: true
-    network_mode: host
     published_ports:
       - '3478:3478/udp'
       - '8080:8080'
@@ -25,10 +26,12 @@
       - '8880:8880'
       - '6789:6789'
       - '10001:10001/udp'
+    networks:
+      - name: "{{ unifi_docker_network }}"
     volumes:
-      - "{{ unifi_docker_data_folder }}:/unifi/data"
-      - "{{ unifi_docker_log_folder }}:/unifi/log"
-      - "{{ unifi_docker_cert_folder }}:/unifi/cert"
-      - "{{ unifi_docker_init_folder }}:/unifi/init.d"
+      - "unifi_data:/unifi/data"
+      - "unifi_log:/unifi/log"
+      - "unifi_cert:/unifi/cert"
+      - "unifi_init.d:/unifi/init.d"
     env:
       TZ: "{{ unifi_docker_tz }}"

@@ -1,8 +1,6 @@
 ---
 
-unifi_docker_tag: '5.6.40'
-unifi_docker_tz: Australia/Sydney
-unifi_docker_data_folder: /etc/unifi/data
-unifi_docker_log_folder: /etc/unifi/log
-unifi_docker_cert_folder: /etc/unifi/cert
-unifi_docker_init_folder: /etc/unifi/init.d
+unifi_docker_tag: '5.12.72'
+unifi_docker_tz: Europe/Moscow
+unifi_docker_container_name: unifi
+unifi_docker_network: unifi
