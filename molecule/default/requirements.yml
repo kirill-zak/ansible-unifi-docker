@@ -1,0 +1,3 @@
+---
+  - src: geerlingguy.pip
+  - src: kirill_zak.ansible_docker

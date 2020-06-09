@@ -12,7 +12,8 @@ def test_hosts_file(host):
     assert f.user == 'root'
     assert f.group == 'root'
 
-def test_unifi_container_is_installed(host):
+def test_unifi_container_is_installed_and_is_running(host):
     container = host.docker("unifi")
 
     assert container.is_running
+    assert container.name == 'unifi'

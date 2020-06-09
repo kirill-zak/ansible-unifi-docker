@@ -1,6 +1,23 @@
 ---
 - name: Converge
   hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 600
+      changed_when: false
+
+  vars:
+    pip_package: python3-pip
+    pip_install_packages:
+      - name: docker
+  roles:
+    - geerlingguy.pip
+    - kirill_zak.ansible_docker
+
   tasks:
     - name: "Include ansible-unifi-docker"
       include_role:
