@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kirill-zak/ansible-unifi-docker.svg?branch=master)](https://travis-ci.org/kirill-zak/ansible-unifi-docker)
+
 # Ansible Unifi
 
 UniFi SDN Controller within a Docker container for Ubuntu LTS
