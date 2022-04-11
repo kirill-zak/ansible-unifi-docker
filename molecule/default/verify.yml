@@ -1,0 +1,63 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Get information about UniFi "unifi_data" volume
+    community.docker.docker_volume_info:
+      name: unifi_data
+    register: unifi_data_volume_status
+
+  - name: Does UniFi "unifi_data" volume exist?
+    assert:
+      that:
+        - unifi_data_volume_status.exists
+
+  - name: Get information about UniFi "unifi_log" volume
+    community.docker.docker_volume_info:
+      name: unifi_log
+    register: unifi_log_volume_status
+
+  - name: Does UniFi "unifi_log" volume exist?
+    assert:
+      that:
+        - unifi_log_volume_status.exists
+
+  - name: Get information about UniFi "unifi_cert" volume
+    community.docker.docker_volume_info:
+      name: unifi_cert
+    register: unifi_cert_volume_status
+
+  - name: Does UniFi "unifi_cert" volume exist?
+    assert:
+      that:
+        - unifi_cert_volume_status.exists
+
+  - name: Get information about UniFi "unifi_init" volume
+    community.docker.docker_volume_info:
+      name: unifi_init.d
+    register: unifi_init_volume_status
+
+  - name: Does UniFi "unifi_init" volume exist?
+    assert:
+      that:
+        - unifi_init_volume_status.exists
+
+  - name: Get information about UniFi network
+    community.docker.docker_network_info:
+      name: unifi
+    register: unifi_network_status
+
+  - name: Does UniFi network exist?
+    assert:
+      that:
+        - unifi_network_status.exists
+
+  - name: Get information about UniFi container
+    community.docker.docker_container_info:
+      name: unifi
+    register: unifi_container_status
+
+  - name: Does UniFi container exist?
+    assert:
+      that:
+        - unifi_container_status.exists

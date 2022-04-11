@@ -1,6 +1,10 @@
 ---
 dependency:
   name: galaxy
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 driver:
   name: docker
 platforms:
@@ -14,7 +18,5 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 verifier:
-  name: testinfra
+  name: ansible

@@ -9,6 +9,7 @@
         update_cache: true
         cache_valid_time: 600
       changed_when: false
+      when: ansible_pkg_mgr == "apt"
 
   vars:
     pip_package: python3-pip
@@ -16,9 +17,9 @@
       - name: docker
   roles:
     - geerlingguy.pip
-    - kirill_zak.ansible_docker
+    - kirill_zak.docker
 
   tasks:
-    - name: "Include ansible-unifi-docker"
+    - name: "Include unifi_docker"
       include_role:
-        name: "ansible-unifi-docker"
+        name: "kirill_zak.unifi_docker"
