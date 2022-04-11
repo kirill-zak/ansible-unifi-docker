@@ -2,15 +2,26 @@
 galaxy_info:
   author: kirill_zak
   role_name: unifi_docker
-  description: UniFi controller in a Docker container for Ubuntu
+  description: UniFi controller in a Docker container
   company: https://kirill-zak.ru
   license: GPLv2
   min_ansible_version: '2.7'
   platforms:
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+    - name: EL
+      versions:
+        - "7"
+        - "8"
+    - name: Fedora
+      versions:
+        - "35"
     - name: Ubuntu
       versions:
-        - focal
         - bionic
+        - focal
   galaxy_tags:
     - unifi
     - docker
