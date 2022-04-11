@@ -1,6 +1,7 @@
 ---
 galaxy_info:
-  author: kirill-zak
+  author: kirill_zak
+  role_name: unifi_docker
   description: UniFi controller in a Docker container for Ubuntu
   company: https://kirill-zak.ru
   license: GPLv2
@@ -10,7 +11,6 @@ galaxy_info:
       versions:
         - focal
         - bionic
-        - xenial
   galaxy_tags:
     - unifi
     - docker

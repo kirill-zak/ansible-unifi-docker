@@ -1,0 +1,70 @@
+---
+name: CI
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checko out the codebase
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install lint dependencies
+        run: pip3 install yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install geerlingguy.pip kirill_zak.docker
+
+      - name: Run linter
+        run: |
+          yamllint .
+          ansible-lint
+
+  test:
+    name: Molecule
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        distro:
+          - ubuntu2004
+          - ubuntu1804
+
+    steps:
+      - name: Checko out the codebase
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule[docker] docker yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install geerlingguy.pip kirill_zak.docker
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}

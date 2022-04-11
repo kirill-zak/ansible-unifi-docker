@@ -1,8 +1,11 @@
-[![Build Status](https://travis-ci.org/kirill-zak/ansible-unifi-docker.svg?branch=master)](https://travis-ci.org/kirill-zak/ansible-unifi-docker)
-
 # Ansible Unifi
 
 UniFi SDN Controller within a Docker container for Ubuntu LTS
+
+## Support distributive
+
+* Ubuntu 18.04 (Bionic Beaver)
+* Ubuntu 20.04 (Focal Fossa)
 
 ##  Requirements
 
@@ -28,13 +31,13 @@ Docker engine
   vars:
     unifi_docker_container_name: unifi.local
   roles:
-    - role: kirill_zak.ansible_docker
-    - role: kirill_zak.ansible_unifi_docker
+    - role: kirill_zak.docker
+    - role: kirill_zak.unifi_docker
 ```
 
 ## License
 
-GPLv3
+GPLv2
 
 ## Author Information
 
