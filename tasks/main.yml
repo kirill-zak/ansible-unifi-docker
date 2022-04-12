@@ -7,10 +7,12 @@
     - unifi_log
     - unifi_cert
     - unifi_init.d
+  changed_when: false
     
 - name: Create UniFi network
   community.docker.docker_network:
     name: "{{ unifi_docker_network }}"
+  changed_when: false
 
 - name: Create UniFi container
   community.docker.docker_container:
@@ -35,3 +37,4 @@
       - "unifi_init.d:/unifi/init.d"
     env:
       TZ: "{{ unifi_docker_tz }}"
+  changed_when: false
