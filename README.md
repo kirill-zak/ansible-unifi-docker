@@ -4,7 +4,6 @@ UniFi SDN Controller within a Docker container
 
 ## Support distributive
 
-* CentOS 7
 * CentOS 8
 * Debian 10 (Buster)
 * Debian 11 (Bullseye)
