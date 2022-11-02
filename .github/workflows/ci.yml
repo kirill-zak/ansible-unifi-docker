@@ -44,6 +44,7 @@ jobs:
       matrix:
         distr:
           - kirillzak/docker-almalinux9
+          - kirillzak/docker-rockylinux9
           - geerlingguy/docker-centos8
           - geerlingguy/docker-debian10
           - geerlingguy/docker-debian11
@@ -51,6 +52,9 @@ jobs:
           - geerlingguy/docker-fedora36
           - geerlingguy/docker-ubuntu1804
           - geerlingguy/docker-ubuntu2004
+        include:
+          - distr: kirillzak/docker-rockylinux9
+            command: "/usr/sbin/init"
 
     steps:
       - name: Checkout the codebase
@@ -76,3 +80,4 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTR: ${{ matrix.distr }}
+          MOLECULE_DOCKER_COMMAND: ${{ matrix.command }}
