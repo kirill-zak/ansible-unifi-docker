@@ -39,6 +39,7 @@ jobs:
     strategy:
       matrix:
         distr:
+          - kirillzak/docker-almalinux9
           - geerlingguy/docker-centos8
           - geerlingguy/docker-debian10
           - geerlingguy/docker-debian11
