@@ -37,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
+
       matrix:
         distr:
           - kirillzak/docker-almalinux9
