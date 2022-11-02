@@ -4,11 +4,13 @@ UniFi SDN Controller within a Docker container
 
 ## Support distributive
 
+* Alma Linux 9
 * CentOS 8
 * Debian 10 (Buster)
 * Debian 11 (Bullseye)
 * Fedora 35
 * Fedora 36
+* Rocky Linux 9
 * Ubuntu 18.04 (Bionic Beaver)
 * Ubuntu 20.04 (Focal Fossa)
 
