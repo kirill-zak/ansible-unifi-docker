@@ -46,6 +46,7 @@ jobs:
           - geerlingguy/docker-debian10
           - geerlingguy/docker-debian11
           - geerlingguy/docker-fedora35
+          - geerlingguy/docker-fedora36
           - geerlingguy/docker-ubuntu1804
           - geerlingguy/docker-ubuntu2004
 
