@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checko out the codebase
+      - name: Checkout the codebase
         uses: actions/checkout@v3
 
       - name: Set up Python 3
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
@@ -39,21 +39,24 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
+
       matrix:
-        distro:
-          - centos8
-          - debian10
-          - debian11
-          - fedora35
-          - ubuntu2004
-          - ubuntu1804
+        distr:
+          - kirillzak/docker-almalinux9
+          - geerlingguy/docker-centos8
+          - geerlingguy/docker-debian10
+          - geerlingguy/docker-debian11
+          - geerlingguy/docker-fedora35
+          - geerlingguy/docker-ubuntu1804
+          - geerlingguy/docker-ubuntu2004
 
     steps:
-      - name: Checko out the codebase
+      - name: Checkout the codebase
         uses: actions/checkout@v3
 
       - name: Set up Python 3
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
@@ -71,4 +74,4 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_DISTR: ${{ matrix.distr }}
