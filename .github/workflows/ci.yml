@@ -52,6 +52,7 @@ jobs:
           - geerlingguy/docker-fedora36
           - geerlingguy/docker-ubuntu1804
           - geerlingguy/docker-ubuntu2004
+          - geerlingguy/docker-ubuntu2204
         include:
           - distr: kirillzak/docker-rockylinux9
             command: "/usr/sbin/init"
