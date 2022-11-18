@@ -1,6 +1,6 @@
 ---
 
-unifi_docker_tag: 'v7.0.25'
+unifi_docker_tag: 'v7.2.25'
 unifi_docker_tz: Europe/Moscow
 unifi_docker_container_name: unifi
 unifi_docker_network: unifi
