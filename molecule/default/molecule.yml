@@ -9,11 +9,11 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: "${MOLECULE_DISTR:-geerlingguy/docker-ubuntu2004}-ansible:latest"
+    image: "${MOLECULE_DISTR:-kirillzak/docker-ubuntu-ansible}:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /var/lib/docker/aufs:/var/lib/docker/aufs/
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
     privileged: true
     pre_build_image: true
 provisioner:
