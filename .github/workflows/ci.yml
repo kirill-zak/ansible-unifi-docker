@@ -71,6 +71,150 @@ jobs:
           MOLECULE_DISTR: kirillzak/docker-almalinux-ansible
           MOLECULE_TAG: ${{ matrix.tag }}
 
+  test-alpine-3-16:
+    name: Molecule test - Alpine Linux 3.16.x
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        tag: ['3.16.0', '3.16.1', '3.16.2', '3.16.3', '3.16.4', '3.16.5', '3.16.6', '3.16.7', '3.16.8', '3.16.9']
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule "molecule-plugins[docker]" docker yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install kirill_zak.docker
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTR: kirillzak/docker-alpine-ansible
+          MOLECULE_TAG: ${{ matrix.tag }}
+
+  test-alpine-3-17:
+    name: Molecule test - Alpine Linux 3.17.x
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        tag: ['3.17.0', '3.17.1', '3.17.2', '3.17.3', '3.17.4', '3.17.5', '317.6', '3.17.7']
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule "molecule-plugins[docker]" docker yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install kirill_zak.docker
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTR: kirillzak/docker-alpine-ansible
+          MOLECULE_TAG: ${{ matrix.tag }}
+
+  test-alpine-3-18:
+    name: Molecule test - Alpine Linux 3.18.x
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        tag: ['3.18.0', '3.18.2', '3.18.3', '3.18.4', '3.18.5', '3.18.6']
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule "molecule-plugins[docker]" docker yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install kirill_zak.docker
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTR: kirillzak/docker-alpine-ansible
+          MOLECULE_TAG: ${{ matrix.tag }}
+
+  test-alpine-3-19:
+    name: Molecule test - Alpine Linux 3.18.x
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        tag: ['3.19.0', '3.19.1']
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule "molecule-plugins[docker]" docker yamllint ansible-lint
+
+      - name: Install required collections
+        run: ansible-galaxy collection install community.docker
+
+      - name: Install required roles
+        run: ansible-galaxy install kirill_zak.docker
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTR: kirillzak/docker-alpine-ansible
+          MOLECULE_TAG: ${{ matrix.tag }}
+
   test-centos:
     name: Molecule test - CentOS 8
     runs-on: ubuntu-latest

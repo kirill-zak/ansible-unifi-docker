@@ -2,7 +2,6 @@
 - name: Converge
   hosts: all
   become: true
-
   pre_tasks:
     - name: Update apt cache
       apt:
@@ -10,16 +9,29 @@
         cache_valid_time: 600
       changed_when: false
       when: ansible_pkg_mgr == "apt"
-
-  vars:
-    pip_package: python3-pip
-    pip_install_packages:
-      - name: docker
-  roles:
-    - geerlingguy.pip
-    - kirill_zak.docker
-
   tasks:
+    - name: Install "docker" PIP package for not Alpine Linux
+      ansible.builtin.include_role:
+        name: geerlingguy.pip
+      vars:
+        pip_package: python3-pip
+        pip_install_packages:
+          - name: docker
+      when:
+        - ansible_distribution != "Alpine"
+    
+    - name: Install "docker" PIP package for Alpine Linux
+      community.general.apk:
+        name: py3-docker-py
+        state: latest
+        no_cache: true
+      when:
+        - ansible_distribution == "Alpine"
+
+    - name: Include install docker role
+      ansible.builtin.include_role:
+        name: "kirill_zak.docker"
+
     - name: "Include unifi_docker"
       include_role:
         name: "kirill_zak.unifi_docker"
