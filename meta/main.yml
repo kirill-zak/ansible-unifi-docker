@@ -4,34 +4,39 @@ galaxy_info:
   role_name: unifi_docker
   description: UniFi controller in a Docker container
   company: https://kirill-zak.ru
-  license: GPLv2
-  min_ansible_version: '2.7'
+  license: GPL-2.0
+  min_ansible_version: '2.16'
   platforms:
+    - name: AlmaLinux
+      versions:
+        - "8"
+        - "9"
     - name: Alpine
       versions:
         - "all"
     - name: Debian
       versions:
-        - buster
-        - bullseye
+        - bookworm
+        - trixie
     - name: EL
       versions:
         - "8"
         - "9"
     - name: Fedora
       versions:
-        - "35"
-        - "36"
-        - "37"
-        - "38"
-        - "39"
+        - "43"
+        - "44"
+    - name: Rocky
+      versions:
+        - "all"
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
         - jammy
+        - noble
+        - resolute
   galaxy_tags:
     - unifi
     - docker
     - ubiquiti
+
 dependencies: []
