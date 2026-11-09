@@ -1,5 +1,5 @@
 ---
-# Based on ansible-lint config
+# Based on https://docs.ansible.com/projects/lint/rules/yaml/
 extends: default
 
 rules:
@@ -15,7 +15,9 @@ rules:
   commas:
     max-spaces-after: -1
     level: error
-  comments: disable
+  comments:
+    # Required by ansible-lint for prettier compatibility.
+    min-spaces-from-content: 1
   comments-indentation: disable
   document-start: disable
   empty-lines:
@@ -29,5 +31,13 @@ rules:
   new-line-at-end-of-file: disable
   new-lines:
     type: unix
+  octal-values:
+    # Required by ansible-lint to keep octal parsing consistent.
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
   trailing-spaces: disable
   truthy: disable
+
+# Local virtualenv created by "make create-venv"; do not lint installed packages.
+ignore: |
+  .ansible

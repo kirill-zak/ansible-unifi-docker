@@ -1,0 +1,10 @@
+---
+collections:
+  # community.general provides the apk module used by the molecule scenarios
+  # and by the kirill_zak.docker dependency role's Alpine install tasks.
+  #
+  # Version range keeps compatibility with the ansible version pinned in
+  # requirements.txt (ansible-core 2.16): community.general 12.x requires
+  # ansible-core >=2.17 and 13.x requires >=2.18.
+  - name: community.general
+    version: '>=11.0.0,<12.0.0'

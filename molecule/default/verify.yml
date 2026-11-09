@@ -2,62 +2,67 @@
 - name: Verify
   hosts: all
   tasks:
-  - name: Get information about UniFi "unifi_data" volume
-    community.docker.docker_volume_info:
-      name: unifi_data
-    register: unifi_data_volume_status
+    - name: Get information about the UniFi data volume
+      community.docker.docker_volume_info:
+        name: unifi_data
+      register: unifi_data_status
 
-  - name: Does UniFi "unifi_data" volume exist?
-    assert:
-      that:
-        - unifi_data_volume_status.exists
+    - name: Does the UniFi data volume exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_data_status.exists
 
-  - name: Get information about UniFi "unifi_log" volume
-    community.docker.docker_volume_info:
-      name: unifi_log
-    register: unifi_log_volume_status
+    - name: Get information about the UniFi log volume
+      community.docker.docker_volume_info:
+        name: unifi_log
+      register: unifi_log_status
 
-  - name: Does UniFi "unifi_log" volume exist?
-    assert:
-      that:
-        - unifi_log_volume_status.exists
+    - name: Does the UniFi log volume exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_log_status.exists
 
-  - name: Get information about UniFi "unifi_cert" volume
-    community.docker.docker_volume_info:
-      name: unifi_cert
-    register: unifi_cert_volume_status
+    - name: Get information about the UniFi cert volume
+      community.docker.docker_volume_info:
+        name: unifi_cert
+      register: unifi_cert_status
 
-  - name: Does UniFi "unifi_cert" volume exist?
-    assert:
-      that:
-        - unifi_cert_volume_status.exists
+    - name: Does the UniFi cert volume exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_cert_status.exists
 
-  - name: Get information about UniFi "unifi_init" volume
-    community.docker.docker_volume_info:
-      name: unifi_init.d
-    register: unifi_init_volume_status
+    - name: Get information about the UniFi init.d volume
+      community.docker.docker_volume_info:
+        name: unifi_init.d
+      register: unifi_init_status
 
-  - name: Does UniFi "unifi_init" volume exist?
-    assert:
-      that:
-        - unifi_init_volume_status.exists
+    - name: Does the UniFi init.d volume exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_init_status.exists
 
-  - name: Get information about UniFi network
-    community.docker.docker_network_info:
-      name: unifi
-    register: unifi_network_status
+    - name: Get information about the UniFi network
+      community.docker.docker_network_info:
+        name: unifi
+      register: unifi_network_status
 
-  - name: Does UniFi network exist?
-    assert:
-      that:
-        - unifi_network_status.exists
+    - name: Does the UniFi network exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_network_status.exists
 
-  - name: Get information about UniFi container
-    community.docker.docker_container_info:
-      name: unifi
-    register: unifi_container_status
+    - name: Get information about the UniFi container
+      community.docker.docker_container_info:
+        name: unifi
+      register: unifi_container_status
 
-  - name: Does UniFi container exist?
-    assert:
-      that:
-        - unifi_container_status.exists
+    - name: Does the UniFi container exist?
+      ansible.builtin.assert:
+        that:
+          - unifi_container_status.exists
+
+    - name: Is the UniFi container running?
+      ansible.builtin.assert:
+        that:
+          - unifi_container_status.container.State.Running

@@ -1,0 +1,37 @@
+---
+name: Lint
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
+      - name: Install lint dependencies
+        run: pip3 install -r requirements.txt
+
+      - name: Install ansible dependencies
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy role install -r roles.yml
+
+      - name: Run linter
+        run: |
+          yamllint .
+          ansible-lint .

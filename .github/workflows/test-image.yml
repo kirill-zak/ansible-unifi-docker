@@ -1,0 +1,56 @@
+---
+name: Test image
+
+on:
+  workflow_call:
+    inputs:
+      distro:
+        description: Container image (e.g. kirillzak/docker-almalinux-ansible) to test against
+        required: true
+        type: string
+      tag:
+        description: Container image tag (e.g. 9.2) to test against
+        required: false
+        type: string
+        default: ''
+      ref:
+        description: Git ref to check out
+        required: true
+        type: string
+
+jobs:
+  test:
+    name: Test ${{ inputs.distro }}${{ inputs.tag && format(':{0}', inputs.tag) || '' }}
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install -r requirements.txt
+
+      - name: Install ansible dependencies
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy role install -r roles.yml
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTR: ${{ inputs.distro }}
+          MOLECULE_TAG: ${{ inputs.tag }}

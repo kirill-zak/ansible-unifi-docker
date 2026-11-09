@@ -1,3 +1,11 @@
-skip_list:
-    - role-name
-    - fqcn-builtins
+---
+# No rules are skipped: the role complies with the full rule set.
+# Pin the strictest profile so lint behavior is deterministic across environments.
+profile: production
+# tests/roles/unifi_docker is a relative symlink pointing back to the
+# repository root (conventional way to make tests/test.yml runnable); walking
+# it duplicates the whole tree and on macOS the recursive symlink chain hits
+# the path-length limit, crashing ansible-lint. Linting the root once covers
+# everything.
+exclude_paths:
+  - tests/roles

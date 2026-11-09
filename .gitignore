@@ -1,0 +1,12 @@
+*.retry
+*.pyc
+*.DS_Store
+*.DS_Store?
+*pytestdebug.log
+.vscode/*
+
+# AI
+.omo
+
+# Python venv
+.ansible
