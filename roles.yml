@@ -1,0 +1,8 @@
+---
+# Galaxy role required by the molecule converge playbook: kirill_zak.docker
+# installs the Docker engine the role manages containers with.
+#
+# The role is pinned: its Galaxy versions mix formats (x.x.x, vx.x.x and
+# abbreviated tags), so ansible-galaxy cannot pick the latest automatically.
+- name: kirill_zak.docker
+  version: v4.0.0

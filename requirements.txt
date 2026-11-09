@@ -1,0 +1,5 @@
+ansible==9.13.0
+ansible-lint==26.10.1
+molecule==26.10.0
+molecule-plugins[podman]==26.10.12
+yamllint==1.38.0
