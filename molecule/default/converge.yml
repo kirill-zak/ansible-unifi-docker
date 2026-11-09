@@ -1,37 +1,94 @@
 ---
 - name: Converge
   hosts: all
-  become: true
-  pre_tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: true
-        cache_valid_time: 600
-      changed_when: false
-      when: ansible_pkg_mgr == "apt"
-  tasks:
-    - name: Install "docker" PIP package for not Alpine Linux
-      ansible.builtin.include_role:
-        name: geerlingguy.pip
-      vars:
-        pip_package: python3-pip
-        pip_install_packages:
-          - name: docker
-      when:
-        - ansible_distribution != "Alpine"
-    
-    - name: Install "docker" PIP package for Alpine Linux
-      community.general.apk:
-        name: py3-docker-py
-        state: latest
-        no_cache: true
-      when:
-        - ansible_distribution == "Alpine"
+  # The podman driver already connects as root inside the container, so there
+  # is no need to escalate via sudo. Under the rootless podman available on
+  # GitHub runners, sudo in the systemd-based AlmaLinux/Rocky/Fedora images
+  # fails with "PAM account management error" (PAM cannot retrieve
+  # authentication info in the user namespace); connecting as root without
+  # become avoids sudo altogether.
+  become: false
 
-    - name: Include install docker role
+  pre_tasks:
+    - name: Wait for systemd to complete initialization.  # noqa: command-instead-of-module
+      ansible.builtin.command: systemctl is-system-running
+      register: systemctl_status
+      until: >
+        'running' in systemctl_status.stdout or
+        'degraded' in systemctl_status.stdout
+      retries: 30
+      delay: 5
+      when: ansible_service_mgr == 'systemd'
+      changed_when: false
+      failed_when: systemctl_status.rc > 1
+
+    - name: Install requests for the community.docker modules
+      ansible.builtin.package:
+        # community.docker 3.x >= 3.6 talks to the Docker API over plain
+        # HTTP using the requests library (the optional docker SDK for
+        # Python is not needed) -- make sure it is present on the target.
+        name: "{{ 'py3-requests' if ansible_pkg_mgr == 'apk' else 'python3-requests' }}"
+        state: present
+        # The test images ship with empty package indexes; refresh them so
+        # the requests package can be resolved (idempotent on re-runs).
+        update_cache: true
+      # Fedora ships dnf5 as the default package manager and the AlmaLinux 8
+      # images default python3 to 3.12 via alternatives; both need the
+      # dedicated dnf tasks below, everything else is covered here.
+      when: >
+        ansible_pkg_mgr == 'apk' or ansible_pkg_mgr == 'apt'
+        or (ansible_os_family == 'RedHat'
+            and ansible_distribution != 'Fedora'
+            and not (ansible_distribution == 'AlmaLinux'
+                     and ansible_distribution_major_version | int == 8))
+
+    # Fedora 41+ reports ansible_pkg_mgr=dnf5, which makes the dnf module
+    # dispatch to the dnf5 backend; the test images do not ship the
+    # python3-libdnf5 bindings, so force the dnf4 backend (python3-dnf).
+    - name: Install requests for the community.docker modules (dnf4 backend)
+      ansible.builtin.dnf:
+        name: python3-requests
+        state: present
+        update_cache: true
+        use_backend: dnf4
+      when: ansible_distribution == 'Fedora'
+
+    # The AlmaLinux 8 images default python3 to 3.12 via alternatives, so the
+    # python3-requests package would only reach the system python (3.6);
+    # install the 3.12 variant that matches the interpreter Ansible uses.
+    - name: Install requests for the community.docker modules (python3.12)
+      ansible.builtin.dnf:
+        name: python3.12-requests
+        state: present
+        update_cache: true
+      when: >
+        ansible_distribution == 'AlmaLinux'
+        and ansible_distribution_major_version | int == 8
+
+    - name: Create the Docker config directory
+      ansible.builtin.file:
+        path: /etc/docker
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Configure dockerd storage driver for the nested container
+      ansible.builtin.copy:
+        content: |
+          {
+            "storage-driver": "vfs"
+          }
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: '0644'
+
+  tasks:
+    - name: "Include kirill_zak.docker"
       ansible.builtin.include_role:
         name: "kirill_zak.docker"
 
-    - name: "Include unifi_docker"
-      include_role:
+    - name: "Include kirill_zak.unifi_docker"
+      ansible.builtin.include_role:
         name: "kirill_zak.unifi_docker"
